@@ -2,6 +2,8 @@ version: "3"
 services:
   web:
     image: nginx:latest
+    depends_on:
+      - db
     ports:
       - "1234:80"
     volumes:
@@ -17,8 +19,9 @@ services:
   db:
     image: mariadb
     restart: always
+    volumes:
+      - ./code/database/dump.sql:/docker-entrypoint-initdb.d/sl_dump_file.sql
     environment:
-      MYSQL_DATABASE: mariadb
       MYSQL_ROOT_PASSWORD: 123
 
   adminer:
